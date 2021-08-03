@@ -198,7 +198,7 @@
      Countdown (year/month/day)
      ===============================================*/
 
-    $('#counting-date').countdown('2021/06/02 20:00:00').on('update.countdown', function(event) {
+    $('#counting-date').countdown('2021/08/04 17:00:00').on('update.countdown', function(event) {
         var $this = $(this).html(event.strftime(''
         + '<div class="count-block"><h2>%D</h2> <span>Days</span></div>' + '<span class="colon">:</span>'
         + '<div class="count-block"><h2>%H</h2> <span>Hours</span> </div>' + '<span class="colon">:</span>'
