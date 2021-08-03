@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ps-landing-ui
+spec:
+  selector:
+    matchLabels:
+      app: ps-landing-ui
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: ps-landing-ui
+    spec:
+      containers:
+        - name: ps-landing-ui
+          image: gcr.io/sylvan-bonbon-317613/ps-landing-ui:0.0.5
+          env:
+            - name: ENV
+              value: "dev"
