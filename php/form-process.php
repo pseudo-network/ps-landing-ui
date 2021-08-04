@@ -32,7 +32,7 @@ if (empty($_POST["message"])) {
 }
 
 // add your email address here
-$EmailTo = "pseudocoin.help@gmail.com";
+$EmailTo = "team@pseudocoin.io";
 $Subject = "New Message Received";
 
 // prepare email body text
