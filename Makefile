@@ -1,5 +1,5 @@
 service := ps-landing-ui
-version := 0.0.6
+version := 0.0.7
 gcloud_proj_id := sylvan-bonbon-317613
 cluster-dev := ps-dev
 docker-image := gcr.io/${gcloud_proj_id}/${service}:${version}
