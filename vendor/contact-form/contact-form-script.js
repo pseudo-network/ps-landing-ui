@@ -29,11 +29,12 @@ function submitForm() {
     });
 
     var xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
+    xhr.withCredentials = false;
 
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === 4) {
             console.log(this.responseText);
+            formSuccess();
         }
     });
 
@@ -42,40 +43,11 @@ function submitForm() {
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(data);
     }
-}
-
-function submitFormOld() {
-    console.log("submitForm");
-    var message = document.getElementById('message').value;
-    var msg_subject = document.getElementById('msg_subject').value;
-    var email = document.getElementById('email').value;
-    var name = document.getElementById('name').value;
-
-
-    var settings = {
-        "url": "https://api.pseudocoin.io/v1/emailer/messages",
-        "method": "POST",
-        "timeout": 60,
-        "headers": {
-            "Content-Type": "application/json"
-        },
-        "data": JSON.stringify({
-            "name": name,
-            "email": email,
-            "message": message,
-            "type": "business"
-        }),
-    };
-
-    console.log("settings");
-    console.log(settings);
-    if (message.length > 0 && msg_subject.length > 0 && email.length > 0 && name.length > 0) {
-        $.ajax(settings).done(function (response) {
-            console.log(response);
-            formSuccess();
-        });
+    else {
+        formError();
     }
 }
+
 
 function formSuccess() {
     $("#contactForm")[0].reset();
@@ -83,9 +55,9 @@ function formSuccess() {
 }
 
 function formError() {
-    //$("#contactForm").removeClass().addClass('shake animated-').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-    //    $(this).removeClass();
-    //});
+    $("#contactForm").removeClass().addClass('shake animated-').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+        $(this).removeClass();
+    });
 }
 
 function submitMSG(valid, msg) {
