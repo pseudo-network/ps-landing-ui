@@ -21,28 +21,26 @@ function submitForm() {
     var message = $("#message").val();
 
 
-    var settings = {
-        "url": "https://api.pseudocoin.io/v1/emailer/messages",
-        "method": "POST",
-        "timeout": 60,
-        "headers": {
-            "Content-Type": "application/json"
-        },
-        "data": {
-            "name": name,
-            "email": email,
-            "message": msg_subject + " : " + message,
-            "type": "business"
-        },
-    };
+    var data = JSON.stringify({
+        "name": name,
+        "email": email,
+        "message": msg_subject + " : " + message,
+        "type": "business"
+    });
 
-    console.log("settings");
-    console.log(settings);
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            console.log(this.responseText);
+        }
+    });
+
     if (message.length > 0 && msg_subject.length > 0 && email.length > 0 && name.length > 0) {
-        $.ajax(settings).done(function (response) {
-            console.log(response);
-            formSuccess();
-        });
+        xhr.open("POST", "https://api.pseudocoin.io/v1/emailer/messages");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(data);
     }
 }
 
