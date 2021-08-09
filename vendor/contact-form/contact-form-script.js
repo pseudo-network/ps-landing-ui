@@ -11,7 +11,9 @@ $("#contactForm").validator().on("submit", function (event) {
 });
 
 
-function submitForm(){
+function submitForm() {
+
+    console.log("submitForm");
     // Initiate Variables With Form Content
     var name = $("#name").val();
     var email = $("#email").val();
@@ -19,34 +21,77 @@ function submitForm(){
     var message = $("#message").val();
 
 
-    $.ajax({
-        type: "POST",
-        url: "php/form-process.php",
-        data: "name=" + name + "&email=" + email + "&msg_subject=" + msg_subject + "&message=" + message,
-        success : function(text){
-            if (text == "success"){
-                formSuccess();
-            } else {
-                formError();
-                submitMSG(false,text);
-            }
-        }
-    });
+    var settings = {
+        "url": "https://api.pseudocoin.io/v1/emailer/messages",
+        "method": "POST",
+        "timeout": 60,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": {
+            "name": name,
+            "email": email,
+            "message": msg_subject + " : " + message,
+            "type": "business"
+        },
+    };
+
+    console.log("settings");
+    console.log(settings);
+    if (message.length > 0 && msg_subject.length > 0 && email.length > 0 && name.length > 0) {
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+            formSuccess();
+        });
+    }
 }
 
-function formSuccess(){
+function submitFormOld() {
+    console.log("submitForm");
+    var message = document.getElementById('message').value;
+    var msg_subject = document.getElementById('msg_subject').value;
+    var email = document.getElementById('email').value;
+    var name = document.getElementById('name').value;
+
+
+    var settings = {
+        "url": "https://api.pseudocoin.io/v1/emailer/messages",
+        "method": "POST",
+        "timeout": 60,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+            "name": name,
+            "email": email,
+            "message": message,
+            "type": "business"
+        }),
+    };
+
+    console.log("settings");
+    console.log(settings);
+    if (message.length > 0 && msg_subject.length > 0 && email.length > 0 && name.length > 0) {
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+            formSuccess();
+        });
+    }
+}
+
+function formSuccess() {
     $("#contactForm")[0].reset();
     submitMSG(true, "Message Submitted!")
 }
 
-function formError(){
+function formError() {
     //$("#contactForm").removeClass().addClass('shake animated-').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
     //    $(this).removeClass();
     //});
 }
 
-function submitMSG(valid, msg){
-    if(valid){
+function submitMSG(valid, msg) {
+    if (valid) {
         var msgClasses = "h5 text-center tada- animated- text-success";
     } else {
         var msgClasses = "h5 text-center text-danger";
