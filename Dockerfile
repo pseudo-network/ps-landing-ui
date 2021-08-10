@@ -7,8 +7,8 @@ COPY /img /usr/share/nginx/html/img
 COPY /js /usr/share/nginx/html/js
 COPY /php /usr/share/nginx/html/php
 COPY /vendor /usr/share/nginx/html/vendor
+COPY /info /usr/share/nginx/html/info
 COPY /index.html /usr/share/nginx/html
-COPY /info /usr/share/info
 
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx/nginx.conf /etc/nginx/conf.d
